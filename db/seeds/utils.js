@@ -14,10 +14,10 @@ exports.createArticleRef = (articles) => {
 };
 
 exports.formatComments = (comments, articleRef) => {
-  return comments.map(({ created_by, belongs_to, ...rest }) => {
+  return comments.map(({ created_by, article_title, ...rest }) => {
     return {
       author: created_by,
-      article_id: articleRef[belongs_to],
+      article_id: articleRef[article_title],
       ...rest,
     };
   });
