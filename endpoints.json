@@ -23,5 +23,13 @@
         }
       ]
     }
+  },
+  "GET /api/users": {
+    "description": "serves an array of all users",
+    "exampleResponse": {
+      "username": "johndoe",
+      "name": "John Doe",
+      "avatar_url": "https://example.com/avatar.jpg"
+    }
   }
 }
