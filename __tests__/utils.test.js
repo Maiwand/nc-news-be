@@ -76,10 +76,10 @@ describe("formatComments", () => {
   test("returns correctly formatted comment object", () => {
     const comments = [
       {
-        created_by: "user1",
-        belongs_to: "Article A",
+        article_title: "Article A",
         body: "comment body",
         votes: 10,
+        author: "user1",
         created_at: 1600000000000,
       },
     ];
@@ -99,8 +99,8 @@ describe("formatComments", () => {
   test("does not mutate original comment object", () => {
     const original = [
       {
-        created_by: "user2",
-        belongs_to: "Article B",
+        article_title: "Article B",
+        author: "user2",
         body: "another body",
         votes: 5,
       },
@@ -113,8 +113,8 @@ describe("formatComments", () => {
   test("ignores unknown article titles (article_id becomes undefined)", () => {
     const comments = [
       {
-        created_by: "userX",
-        belongs_to: "Nonexistent Article",
+        artile_title: "Nonexistent Article",
+        author: "userX",
         body: "body text",
       },
     ];
