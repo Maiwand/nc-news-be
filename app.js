@@ -12,6 +12,7 @@ const {
   handlePSQLErrors,
   handleServerError,
 } = require("./errors");
+const { getCommentsByArticleId } = require("./controllers/comments.controller");
 
 app.use(express.json());
 
@@ -23,6 +24,7 @@ app.get("/api/topics", getTopics);
 app.get("/api/articles", getAllArticles);
 app.get("/api/users", getAllUsers);
 app.get("/api/articles/:article_id", getArticleById);
+app.get("/api/articles/:article_id/comments", getCommentsByArticleId);
 
 app.use(handleCustomErrors);
 app.use(handlePSQLErrors);
