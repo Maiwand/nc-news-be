@@ -24,7 +24,7 @@ const selectArticleById = (article_id) => {
           msg: `Article ${article_id} not found`,
         });
       }
-      return rows[0];
+      return article;
     });
 };
 
