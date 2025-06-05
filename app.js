@@ -2,7 +2,10 @@ const express = require("express");
 const app = express();
 const endpoints = require("./endpoints.json");
 const { getTopics } = require("./controllers/topics.controller");
-const { getAllArticles } = require("./controllers/articles.controller");
+const {
+  getAllArticles,
+  getArticleById,
+} = require("./controllers/articles.controller");
 const { getAllUsers } = require("./controllers/users.controller");
 const {
   handleCustomErrors,
@@ -19,6 +22,7 @@ app.get("/api", (request, response) => {
 app.get("/api/topics", getTopics);
 app.get("/api/articles", getAllArticles);
 app.get("/api/users", getAllUsers);
+app.get("/api/articles/:article_id", getArticleById);
 
 app.use(handleCustomErrors);
 app.use(handlePSQLErrors);
