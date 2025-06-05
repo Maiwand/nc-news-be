@@ -60,6 +60,9 @@ describe("/api/articles", () => {
           expect(typeof article.comment_count).toBe("number");
           expect(article).not.toHaveProperty("body");
         });
+        const dates = body.articles.map((article) => article.created_at);
+        const sorted = [...dates].sort().reverse();
+        expect(dates).toEqual(sorted);
       });
   });
 });
