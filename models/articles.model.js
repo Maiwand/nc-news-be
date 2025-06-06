@@ -1,5 +1,9 @@
 const db = require("../db/connection");
 
+const checkArticleExists = (article_id) => {
+  return db.query(`SELECT * FROM articles WHERE article_id = $1`, [article_id]);
+};
+
 const selectAllArticles = () => {
   const queryString = `
     SELECT articles.article_id, articles.title, articles.topic, articles.author,
@@ -28,4 +32,8 @@ const selectArticleById = (article_id) => {
     });
 };
 
-module.exports = { selectAllArticles, selectArticleById };
+module.exports = {
+  selectAllArticles,
+  selectArticleById,
+  checkArticleExists,
+};
