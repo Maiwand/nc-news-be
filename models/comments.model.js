@@ -21,6 +21,7 @@ const selectCommentsByArticleId = (article_id) => {
 
 const insertCommentByArticleId = (article_id, newComment) => {
   const { username, body } = newComment;
+
   if (!username || !body) {
     return Promise.reject({ status: 400, msg: "Missing required fields" });
   }
@@ -28,14 +29,7 @@ const insertCommentByArticleId = (article_id, newComment) => {
   return Promise.all([
     checkArticleExists(article_id),
     checkUserExists(username),
-  ]).then(([checkArticleExistsResolved, checkUserExistsResolved]) => {
-    if (checkArticleExistsResolved.rows.length === 0) {
-      return Promise.reject({ status: 404, msg: "Article not found" });
-    }
-    if (checkUserExistsResolved.rows.length === 0) {
-      return Promise.reject({ status: 404, msg: "User not found" });
-    }
-
+  ]).then(() => {
     return db
       .query(
         `
