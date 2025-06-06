@@ -163,3 +163,67 @@ describe("/api/articles/:article_id/comments", () => {
       });
   });
 });
+
+describe("POST /api/articles/:article_id/comments", () => {
+  test("POST - 201: Responds with the posted comment", () => {
+    const newComment = {
+      username: "butter_bridge",
+      body: "Amazing article!",
+    };
+
+    return request(app)
+      .post("/api/articles/1/comments")
+      .send(newComment)
+      .expect(201)
+      .then(({ body }) => {
+        const comment = body.comment;
+        expect(comment).toHaveProperty("comment_id");
+        expect(comment).toHaveProperty("votes", 0);
+        expect(typeof comment.created_at).toBe("string");
+        expect(comment.author).toBe("butter_bridge");
+        expect(comment.body).toBe("Amazing article!");
+        expect(comment.article_id).toBe(1);
+      });
+  });
+
+  test("POST - 400: Missing body or username", () => {
+    const badComment = { username: "butter_bridge" };
+    return request(app)
+      .post("/api/articles/1/comments")
+      .send(badComment)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Missing required fields");
+      });
+  });
+
+  test("POST - 400: Invalid article_id", () => {
+    return request(app)
+      .post("/api/articles/dog/comments")
+      .send({ username: "butter_bridge", body: "hello" })
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Bad request");
+      });
+  });
+
+  test("POST - 404: Article does not exist", () => {
+    return request(app)
+      .post("/api/articles/9999/comments")
+      .send({ username: "butter_bridge", body: "hello" })
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Article not found");
+      });
+  });
+
+  test("POST - 404: Username does not exist", () => {
+    return request(app)
+      .post("/api/articles/1/comments")
+      .send({ username: "ghost_user", body: "hello" })
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("User not found");
+      });
+  });
+});
