@@ -102,5 +102,8 @@
         "article_img_url": "https://..."
       }
     }
+  },
+  "DELETE /api/comments/:comment_id": {
+    "description": "Deletes a comment by its comment_id and responds with 204 No Content"
   }
 }
