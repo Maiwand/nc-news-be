@@ -191,6 +191,16 @@ describe("/api/articles/:article_id", () => {
         expect(body.msg).toBe("Article 9999 not found");
       });
   });
+
+  test("GET - 200: responds with an article including comment_count", () => {
+    return request(app)
+      .get("/api/articles/1")
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.article).toHaveProperty("comment_count");
+        expect(typeof body.article.comment_count).toBe("number");
+      });
+  });
 });
 
 describe("/api/articles/:article_id/comments", () => {
