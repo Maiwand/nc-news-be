@@ -11,8 +11,9 @@ const config = {};
 if (ENV === "production") {
   config.connectionString = process.env.DATABASE_URL;
   config.max = 2;
+  console.log("Connected to remote production database.");
 } else {
-  console.log(`Connected to ${process.env.PGDATABASE}`);
+  console.log(`Connected to local database: ${process.env.PGDATABASE}`);
 }
 
 const db = new Pool(config);
