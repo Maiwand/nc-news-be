@@ -104,6 +104,37 @@ describe("GET /api/articles (queries)", () => {
         expect(body.msg).toBe("Invalid order query");
       });
   });
+
+  test("GET - 200: responds with articles filtered by topic", () => {
+    return request(app)
+      .get("/api/articles?topic=cats")
+      .expect(200)
+      .then(({ body }) => {
+        expect(Array.isArray(body.articles)).toBe(true);
+        expect(body.articles.length).toBeGreaterThan(0);
+        body.articles.forEach((article) => {
+          expect(article.topic).toBe("cats");
+        });
+      });
+  });
+
+  test("GET - 404: responds with error when topic exists but has no articles", () => {
+    return request(app)
+      .get("/api/articles?topic=paper")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("No articles found for topic: paper");
+      });
+  });
+
+  test("GET - 404: responds with error when topic does not exist", () => {
+    return request(app)
+      .get("/api/articles?topic=notatopic")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Topic not found");
+      });
+  });
 });
 
 describe("/api/users", () => {
