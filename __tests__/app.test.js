@@ -5,6 +5,7 @@ const app = require("../app");
 const db = require("../db/connection");
 const seed = require("../db/seeds/seed");
 const testData = require("../db/data/test-data");
+require("jest-sorted");
 
 beforeEach(() => {
   return seed(testData);
@@ -63,6 +64,44 @@ describe("/api/articles", () => {
         const dates = body.articles.map((article) => article.created_at);
         const sorted = [...dates].sort().reverse();
         expect(dates).toEqual(sorted);
+      });
+  });
+});
+
+describe("GET /api/articles (queries)", () => {
+  test("GET - 200: sorts by a valid column", () => {
+    return request(app)
+      .get("/api/articles?sort_by=title")
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.articles).toBeSortedBy("title", { descending: true });
+      });
+  });
+
+  test("GET - 200: accepts order=asc", () => {
+    return request(app)
+      .get("/api/articles?order=asc")
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.articles).toBeSortedBy("created_at", { descending: false });
+      });
+  });
+
+  test("GET - 400: invalid sort_by column", () => {
+    return request(app)
+      .get("/api/articles?sort_by=not_a_column")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Invalid sort_by column");
+      });
+  });
+
+  test("GET - 400: invalid order query", () => {
+    return request(app)
+      .get("/api/articles?order=sideways")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Invalid order query");
       });
   });
 });
@@ -273,9 +312,7 @@ describe("PATCH - /api/articles/:article_id", () => {
 
 describe("/api/comments/:comment_id", () => {
   test("DELETE - 204: deletes a comment by ID and returns no content", () => {
-    return request(app)
-      .delete("/api/comments/1")
-      .expect(204);
+    return request(app).delete("/api/comments/1").expect(204);
   });
 
   test("DELETE - 404: valid but non-existent comment_id", () => {
