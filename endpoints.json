@@ -10,7 +10,14 @@
     }
   },
   "GET /api/articles": {
-    "description": "serves an array of all articles, sorted by date descending by default. Accepts sort_by and order query parameters.",
+    "description": "serves an array of all articles, sorted by date descending by default. Accepts below query parameters.",
+    "queries": [
+      {
+        "sort_by": "Sorts the articles by any valid column (defaults to created_at).",
+        "order": "Orders the articles in 'asc' or 'desc' order (defaults to 'desc').",
+        "topic": "Filters the articles by the specified topic."
+      }
+    ],
     "exampleResponse": {
       "articles": [
         {
