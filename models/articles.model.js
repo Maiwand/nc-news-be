@@ -10,7 +10,7 @@ const checkArticleExists = (article_id) => {
     });
 };
 
-const selectAllArticles = (sort_by = "created_at", order = "desc") => {
+const selectAllArticles = (sort_by = "created_at", order = "desc", topic) => {
   const validSortColumns = [
     "title",
     "topic",
@@ -30,16 +30,25 @@ const selectAllArticles = (sort_by = "created_at", order = "desc") => {
     return Promise.reject({ status: 400, msg: "Invalid order query" });
   }
 
-  const queryString = `
+  const queryValues = [];
+  let queryString = `
     SELECT articles.article_id, articles.title, articles.topic, articles.author,
            articles.created_at, articles.votes, articles.article_img_url,
            COUNT(comments.comment_id)::INT AS comment_count
     FROM articles
-    LEFT JOIN comments ON comments.article_id = articles.article_id
+    LEFT JOIN comments ON comments.article_id = articles.article_id   
+  `;
+  if (topic) {
+    queryString += "WHERE topic = $1";
+    queryValues.push(topic);
+  }
+
+  queryString += `
     GROUP BY articles.article_id
     ORDER BY ${sort_by} ${order};
   `;
-  return db.query(queryString).then(({ rows }) => rows);
+
+  return db.query(queryString, queryValues).then(({ rows }) => rows);
 };
 
 const selectArticleById = (article_id) => {

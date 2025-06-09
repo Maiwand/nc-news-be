@@ -4,11 +4,22 @@ const {
   updateArticleById,
   checkArticleExists,
 } = require("../models/articles.model");
+const { checkTopicExists } = require("../models/topics.model");
 
 const getAllArticles = (request, response, next) => {
-  const { sort_by, order } = request.query;
-  selectAllArticles(sort_by, order)
-    .then((articles) => {
+  const { sort_by, order, topic } = request.query;
+
+  Promise.all([
+    selectAllArticles(sort_by, order, topic),
+    checkTopicExists(topic),
+  ])
+    .then(([articles, _]) => {
+      if (articles.length === 0) {
+        return Promise.reject({
+          status: 404,
+          msg: `No articles found for topic: ${topic}`,
+        });
+      }
       response.status(200).send({ articles });
     })
     .catch(next);
