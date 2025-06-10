@@ -64,6 +64,8 @@ summary {
   border-radius: 10px;
   transition: 0.1s;
   cursor: pointer;
+  font-family: monospace;
+  font-size: 15px;
 }
 
 summary:hover {
