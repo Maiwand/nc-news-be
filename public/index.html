@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NC News API</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header><h1>NC News API</h1></header>
+
+    <main class="main">
+      <h2>API Routes</h2>
+
+      <details id="get-users">
+        <h3>POST /api/articles/:article_id/comments</h3>
+        <summary>
+          <span class="method post">POST</span>
+          /api/articles/:article_id/comments
+        </summary>
+        <div class="sub-section">
+          <h4>Description</h4>
+          <p>Adds a comment for the given article_id</p>
+        </div>
+        <div class="sub-section">
+          <h4>Example Request</h4>
+          <pre>
+{
+  "body": {
+    "username": "butter_bridge",
+    "body": "Great post!"
+  }
+} </pre
+          >
+        </div>
+        <div class="sub-section">
+          <h4>Example Response</h4>
+          <pre>
+{
+  "comment": {
+    "comment_id": 12,
+    "votes": 0,
+    "created_at": "2020-06-01T00:00:00.000Z",
+    "author": "butter_bridge",
+    "body": "Great post!",
+    "article_id": 1
+  }
+}</pre
+          >
+        </div>
+      </details>
+      <details id="get-users">
+        <h3>POST /api/articles/:article_id/comments</h3>
+        <summary>
+          <span class="method post">POST</span>
+          /api/articles/:article_id/comments
+        </summary>
+        <div class="sub-section">
+          <h4>Description</h4>
+          <p>Adds a comment for the given article_id</p>
+        </div>
+        <div class="sub-section">
+          <h4>Example Request</h4>
+          <pre>
+{
+  "body": {
+    "username": "butter_bridge",
+    "body": "Great post!"
+  }
+}    </pre
+          >
+        </div>
+        <div class="sub-section">
+          <h4>Example Response</h4>
+          <pre>
+{
+  "comment": {
+    "comment_id": 12,
+    "votes": 0,
+    "created_at": "2020-06-01T00:00:00.000Z",
+    "author": "butter_bridge",
+    "body": "Great post!",
+    "article_id": 1
+  }
+}</pre
+          >
+        </div>
+      </details>
+    </main>
+  </body>
+</html>
