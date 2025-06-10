@@ -131,12 +131,12 @@ describe("GET /api/articles (queries)", () => {
       });
   });
 
-  test("GET - 404: responds with error when topic exists but has no articles", () => {
+  test("GET - 200: responds with an empty array when topic exists but has no articles", () => {
     return request(app)
       .get("/api/articles?topic=paper")
-      .expect(404)
+      .expect(200)
       .then(({ body }) => {
-        expect(body.msg).toBe("No articles found for topic: paper");
+        expect(body.articles).toEqual([]);
       });
   });
 
@@ -329,6 +329,16 @@ describe("PATCH - /api/articles/:article_id", () => {
       .expect(200)
       .then(({ body }) => {
         expect(body.article.votes).toBe(110);
+        expect(body.article.article_id).toBe(1);
+      });
+  });
+
+  test("PATCH - 200: responds with unchanged article when no information in the request body", () => {
+    return request(app)
+      .patch("/api/articles/1")
+      .send({})
+      .expect(200)
+      .then(({ body }) => {
         expect(body.article.article_id).toBe(1);
       });
   });
