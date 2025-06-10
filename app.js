@@ -21,7 +21,9 @@ const {
 
 app.use(express.json());
 
-app.get("/api", (request, response) => {
+app.use("/api", express.static("public"));
+
+app.get("/api/json", (request, response) => {
   response.status(200).send({ endpoints });
 });
 
