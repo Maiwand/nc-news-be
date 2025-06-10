@@ -14,12 +14,6 @@ const getAllArticles = (request, response, next) => {
     checkTopicExists(topic),
   ])
     .then(([articles, _]) => {
-      if (articles.length === 0) {
-        return Promise.reject({
-          status: 404,
-          msg: `No articles found for topic: ${topic}`,
-        });
-      }
       response.status(200).send({ articles });
     })
     .catch(next);
@@ -37,7 +31,13 @@ const getArticleById = (request, response, next) => {
 const patchArticleById = (request, response, next) => {
   const { article_id } = request.params;
   const { inc_votes } = request.body;
-
+  if (inc_votes === undefined) {
+    return checkArticleExists(article_id, true)
+      .then((article) => {
+        response.status(200).send({ article });
+      })
+      .catch(next);
+  }
   if (typeof inc_votes !== "number") {
     return next({ status: 400, msg: "Invalid inc_votes format" });
   }
