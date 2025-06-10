@@ -16,9 +16,22 @@ afterAll(() => {
 });
 
 describe("GET /api", () => {
+  test("GET - 200: Serves the HTML document", () => {
+    return request(app)
+      .get("/api/")
+      .expect("Content-Type", /html/)
+      .expect(200)
+      .then(({ text }) => {
+        expect(text).toContain("<!DOCTYPE html>");
+        expect(text).toContain("<h1>NC News API</h1>");
+      });
+  });
+});
+
+describe("GET /api/json", () => {
   test("GET - 200: Responds with an object detailing the documentation for each endpoint", () => {
     return request(app)
-      .get("/api")
+      .get("/api/json")
       .expect(200)
       .then(({ body: { endpoints } }) => {
         expect(endpoints).toEqual(endpointsJson);
