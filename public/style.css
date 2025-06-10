@@ -68,6 +68,10 @@ summary {
   font-size: 15px;
 }
 
+summary::marker {
+  color: #889a56;
+}
+
 summary:hover {
   background: #c1c8aa;
   padding: 20px 25px;
