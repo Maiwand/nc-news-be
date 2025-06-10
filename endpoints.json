@@ -92,9 +92,6 @@
   "PATCH /api/articles/:article_id": {
     "description": "Updates an article's vote count",
     "queries": [],
-    "requestBody": {
-      "inc_votes": "Integer value by which to increment or decrement the article's vote count"
-    },
     "exampleRequest": {
       "inc_votes": -100
     },
