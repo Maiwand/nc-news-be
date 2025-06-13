@@ -1,40 +1,16 @@
 const express = require("express");
 const app = express();
-const endpoints = require("./endpoints.json");
-const { getTopics } = require("./controllers/topics.controller");
-const {
-  getAllArticles,
-  getArticleById,
-  patchArticleById,
-} = require("./controllers/articles.controller");
-const { getAllUsers } = require("./controllers/users.controller");
 const {
   handleCustomErrors,
   handlePSQLErrors,
   handleServerError,
 } = require("./errors");
-const {
-  getCommentsByArticleId,
-  postCommentByArticleId,
-  removeCommentById,
-} = require("./controllers/comments.controller");
+
+const apiRouter = require("./routes/api.router");
 
 app.use(express.json());
 
-app.use("/api", express.static("public"));
-
-app.get("/api/json", (request, response) => {
-  response.status(200).send({ endpoints });
-});
-
-app.get("/api/topics", getTopics);
-app.get("/api/articles", getAllArticles);
-app.get("/api/users", getAllUsers);
-app.get("/api/articles/:article_id", getArticleById);
-app.get("/api/articles/:article_id/comments", getCommentsByArticleId);
-app.post("/api/articles/:article_id/comments", postCommentByArticleId);
-app.patch("/api/articles/:article_id", patchArticleById);
-app.delete("/api/comments/:comment_id", removeCommentById);
+app.use("/api", apiRouter);
 
 app.use(handleCustomErrors);
 app.use(handlePSQLErrors);
