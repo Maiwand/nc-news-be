@@ -1,9 +1,23 @@
-const { selectAllUsers } = require("../models/users.model");
+const {
+  selectAllUsers,
+  selectUserByUsername,
+} = require("../models/users.model");
 
-const getAllUsers = (request, response) => {
-  selectAllUsers().then((users) => {
-    response.status(200).send({ users });
-  });
+const getAllUsers = (request, response, next) => {
+  selectAllUsers()
+    .then((users) => {
+      response.status(200).send({ users });
+    })
+    .catch(next);
 };
 
-module.exports = { getAllUsers };
+const getUserByUsername = (request, response, next) => {
+  const { username } = request.params;
+  selectUserByUsername(username)
+    .then((user) => {
+      response.status(200).send({ user });
+    })
+    .catch(next);
+};
+
+module.exports = { getAllUsers, getUserByUsername };
