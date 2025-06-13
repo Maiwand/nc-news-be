@@ -397,3 +397,31 @@ describe("/api/comments/:comment_id", () => {
       });
   });
 });
+
+describe("/api/users/:username", () => {
+  test("GET - 200: Responds with a single user object by username, checking properties individually", () => {
+    return request(app)
+      .get("/api/users/butter_bridge")
+      .expect(200)
+      .then(({ body }) => {
+        const user = body.user;
+        expect(typeof user).toBe("object");
+        expect(user).not.toBeNull();
+        expect(user).toHaveProperty("username");
+        expect(user.username).toBe("butter_bridge");
+        expect(user).toHaveProperty("name");
+        expect(user.name).toBe("jonny");
+        expect(user).toHaveProperty("avatar_url");
+        expect(Object.keys(user).length).toBe(3);
+      });
+  });
+
+  test("GET - 404: Responds with User not found for a valid but non-existent username", () => {
+    return request(app)
+      .get("/api/users/non_existent_user")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("User not found");
+      });
+  });
+});
