@@ -2,6 +2,9 @@
   "GET /api": {
     "description": "serves up a json representation of all the available endpoints of the api"
   },
+  "GET /api/json": {
+    "description": "serves up a json representation of all the available endpoints of the api"
+  },
   "GET /api/topics": {
     "description": "serves an array of all topics",
     "queries": [],
@@ -37,6 +40,16 @@
       "username": "johndoe",
       "name": "John Doe",
       "avatar_url": "https://example.com/avatar.jpg"
+    }
+  },
+  "GET /api/users/:username": {
+    "description": "serves a single user object by their username",
+    "exampleResponse": {
+      "user": {
+        "username": "butter_bridge",
+        "avatar_url": "https://www.healthytherapies.com/wp-content/uploads/2016/06/Lime3.jpg",
+        "name": "jonny"
+      }
     }
   },
   "GET /api/articles/:article_id": {
